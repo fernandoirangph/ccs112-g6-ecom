@@ -53,7 +53,6 @@ function App() {
     });
   }, []);
 
-  // Update total price when cart changes
   useEffect(() => {
     dispatch({ type: "UPDATE_TOTAL" });
   }, [state.cart]);
