@@ -1,6 +1,8 @@
 import React from "react";
 import CartItem from "./CartItem";
 
+/*ino*/
+
 const Cart = ({ cart, total, dispatch }) => {
   return (
     <div>
