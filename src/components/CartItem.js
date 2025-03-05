@@ -1,5 +1,5 @@
 import React from "react";
-/*ino*/
+/* ino */
 const CartItem = ({ item, dispatch }) => {
   return (
     <div style={{ display: "flex", justifyContent: "space-between", width: "300px" }}>
