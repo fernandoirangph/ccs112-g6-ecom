@@ -1,94 +1,69 @@
-// src/App.js
-import React, { Component } from "react";
+import React, { useReducer, useEffect } from "react";
 import ProductList from "./components/ProductList";
 import Cart from "./components/Cart";
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      products: [],  // (3) Stores product list
-      cart: [],      // (3) Stores cart items
-      searchQuery: "" // (5) Stores search input
-    };
-  }
+const initialState = {
+  products: [],
+  cart: [],
+  total: 0,
+};
 
-  // (4) Lifecycle Method - Fetch products when component mounts
-  componentDidMount() {
-    const fakeProducts = [
-      { id: 1, name: "Laptop", price: 50000, image: "https://via.placeholder.com/100" },
-      { id: 2, name: "Phone", price: 20000, image: "https://via.placeholder.com/100" },
-      { id: 3, name: "Tablet", price: 15000, image: "https://via.placeholder.com/100" }
-    ];
-    this.setState({ products: fakeProducts });
-  }
+const cartReducer = (state, action) => { /*card reducer*/
+  switch (action.type) {
+    case "SET_PRODUCTS":
+      return { ...state, products: action.payload };
 
-  // (3) Add to Cart
-  addToCart = (product) => {
-    this.setState((prevState) => {
-      const cartItem = prevState.cart.find((item) => item.id === product.id);
-      if (cartItem) {
+    case "ADD_TO_CART":
+      const existingItem = state.cart.find((item) => item.id === action.payload.id);
+      if (existingItem) {
         return {
-          cart: prevState.cart.map((item) =>
-            item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+          ...state,
+          cart: state.cart.map((item) =>
+            item.id === action.payload.id ? { ...item, quantity: item.quantity + 1 } : item
           ),
         };
-      } else {
-        return { cart: [...prevState.cart, { ...product, quantity: 1 }] };
       }
+      return { ...state, cart: [...state.cart, { ...action.payload, quantity: 1 }] };
+
+    case "REMOVE_FROM_CART":
+      return { ...state, cart: state.cart.filter((item) => item.id !== action.payload) };
+
+    case "CLEAR_CART":
+      return { ...state, cart: [], total: 0 };
+
+    case "UPDATE_TOTAL":
+      const newTotal = state.cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+      return { ...state, total: newTotal };
+
+    default:
+      return state;
+  }
+};
+
+function App() {
+  const [state, dispatch] = useReducer(cartReducer, initialState);
+  useEffect(() => {
+    dispatch({
+      type: "SET_PRODUCTS",
+      payload: [
+        { id: 1, name: "Product 1", price: 0, image: "" },
+        { id: 2, name: "Product 2", price: 0, image: "" },
+        { id: 3, name: "Product 3", price: 0, image: "" },
+      ],
     });
-  };
+  }, []);
 
-  // (3) Remove from Cart
-  removeFromCart = (id) => {
-    this.setState((prevState) => ({
-      cart: prevState.cart.filter((item) => item.id !== id),
-    }));
-  };
+  useEffect(() => {
+    dispatch({ type: "UPDATE_TOTAL" });
+  }, [state.cart]);
 
-  // (3) Clear Cart
-  clearCart = () => {
-    this.setState({ cart: [] });
-  };
-
-  // (5) Search Product
-  handleSearch = (event) => {
-    this.setState({ searchQuery: event.target.value });
-  };
-
-  // (4) Lifecycle Method - Update total price when cart changes
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.cart !== this.state.cart) {
-      console.log("Cart updated:", this.state.cart);
-    }
-  }
-
-  render() {
-    // (5) Filter products based on search query
-    const filteredProducts = this.state.products.filter((product) =>
-      product.name.toLowerCase().includes(this.state.searchQuery.toLowerCase())
-    );
-
-    return (
-      <div style={{ padding: "20px" }}>
-        <h1>Shopping App</h1>
-
-        {/* (5) Search Bar */}
-        <input
-          type="text"
-          placeholder="Search products..."
-          value={this.state.searchQuery}
-          onChange={this.handleSearch}
-        />
-
-        {/* (1) Product Listing */}
-        <ProductList products={filteredProducts} addToCart={this.addToCart} />
-
-        {/* (2) Shopping Cart */}
-        <Cart cart={this.state.cart} removeFromCart={this.removeFromCart} clearCart={this.clearCart} />
-      </div>
-    );
-  }
+  return (
+    <div>
+      <h1>Simple E-commerce App</h1>
+      <ProductList products={state.products} dispatch={dispatch} />
+      <Cart cart={state.cart} total={state.total} dispatch={dispatch} />
+    </div>
+  );
 }
 
 export default App;
