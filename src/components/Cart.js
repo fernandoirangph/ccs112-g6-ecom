@@ -1,7 +1,7 @@
 import React from "react";
 import CartItem from "./CartItem";
 
-/*lamis*/
+/*madraga*/
 
 const Cart = ({ cart, total, dispatch }) => {
   return (
