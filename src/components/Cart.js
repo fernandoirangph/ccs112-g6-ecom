@@ -19,9 +19,4 @@ const Cart = ({ cart, total, dispatch }) => {
     </div>
   );
 };
-
-<<<<<<< HEAD
 export default Cart;
-=======
-export default Cart;
->>>>>>> bffacb0d0ac812b64c8eb6ca8b46b105c01b5344
