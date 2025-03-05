@@ -1,5 +1,5 @@
 import React from "react";
-
+/*lamis*/
 const Product = ({ product, dispatch }) => {
   return (
     <div style={{ border: "1px solid gray", padding: "10px", width: "200px" }}>
