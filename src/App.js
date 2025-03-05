@@ -1,7 +1,8 @@
 import React, { useReducer, useEffect } from "react";
 import ProductList from "./components/ProductList";
 import Cart from "./components/Cart";
-/*irang*/
+
+/* irang */
 
 const initialState = {
   products: [],
