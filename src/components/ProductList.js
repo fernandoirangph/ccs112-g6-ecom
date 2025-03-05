@@ -1,6 +1,6 @@
 import React from "react";
 import Product from "./Product";
-
+/*kipte*/
 const ProductList = ({ products, dispatch }) => {
   return (
     <div>
