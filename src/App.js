@@ -46,9 +46,9 @@ function App() {
     dispatch({
       type: "SET_PRODUCTS",
       payload: [
-        { id: 1, name: "Product 1", price: 0, image: "" },
-        { id: 2, name: "Product 2", price: 0, image: "" },
-        { id: 3, name: "Product 3", price: 0, image: "" },
+        { id: 1, name: "Product 1", price: 5, image: "" },
+        { id: 2, name: "Product 2", price: 20, image: "" },
+        { id: 3, name: "Product 3", price: 30, image: "" },
       ],
     });
   }, []);
