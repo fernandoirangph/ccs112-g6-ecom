@@ -42,8 +42,6 @@ const cartReducer = (state, action) => {
 
 function App() {
   const [state, dispatch] = useReducer(cartReducer, initialState);
-
-  // Simulating fetching product data when component mounts
   useEffect(() => {
     dispatch({
       type: "SET_PRODUCTS",
