@@ -8,7 +8,7 @@ const initialState = {
   total: 0,
 };
 
-const cartReducer = (state, action) => {
+const cartReducer = (state, action) => { /*card reducer*/
   switch (action.type) {
     case "SET_PRODUCTS":
       return { ...state, products: action.payload };
